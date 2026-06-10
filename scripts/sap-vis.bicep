@@ -11,9 +11,7 @@ param adminPassword string = 'P@ssw0rd1234'
 
 
 
-resource Microsoft.Network/virtualNetworks
-  apiVersion: 2023-05-01
-  name: vnetName
+resource 'Microsoft.Network/virtualNetworks' vnetName '2023-05-01' = {
   location: location
   properties:
     addressSpace:
@@ -26,3 +24,4 @@ resource Microsoft.Network/virtualNetworks
       - name: db-subnet
         properties:
           addressPrefix: subnetDbPrefix
+}
