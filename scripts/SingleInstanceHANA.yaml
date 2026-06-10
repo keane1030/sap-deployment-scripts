@@ -5,15 +5,16 @@ pool:
   vmImage: ubuntu-latest
   
 jobs:
-  job:
-  steps:
-  - task: AzureCLI@2
-    inputs:
-      azureSubscription: 'AzureSAPConnection'
-      scriptType: bash
-      scriptLocation: inlineScript
-      inlineScript: |
-        az deployment group create \
-          --resource-group SAP_RG \
-          --template-file sap-vis.yaml \
-          --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
+  - job: deploy-hana
+    displayName: 'Deploy Single Instance HANA'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureSAPConnection'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az deployment group create \
+            --resource-group SAP_RG \
+            --template-file sap-vis.yaml \
+            --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
