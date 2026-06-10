@@ -3,15 +3,17 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-
-steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'MyServiceConnection'
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      az deployment group create \
-        --resource-group $(rgName) \
-        --template-file sap-vis.yaml \
-        --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
+  
+jobs:
+  job:
+  steps:
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'MyServiceConnection'
+      scriptType: bash
+      scriptLocation: inlineScript
+      inlineScript: |
+        az deployment group create \
+          --resource-group $(rgName) \
+          --template-file sap-vis.yaml \
+          --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
