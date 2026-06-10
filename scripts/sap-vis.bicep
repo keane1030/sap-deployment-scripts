@@ -16,27 +16,27 @@ param adminPassword secureString = "P@ssw0rd1234"
 # -----------------------------
  resource Microsoft.Network/virtualNetworks
   apiVersion: 2023-05-01
-  name: '${vnetName}'
-  location: '${location}'
+  name: ${vnetName}
+  location: ${location}
   properties:
     addressSpace:
       addressPrefixes:
-        - '${addressPrefix}'
+        - ${addressPrefix}
     subnets:
       - name: app-subnet
         properties:
-          addressPrefix: '${subnetAppPrefix}'
+          addressPrefix: ${subnetAppPrefix}
       - name: db-subnet
         properties:
-          addressPrefix: '${subnetDbPrefix}'
+          addressPrefix: ${subnetDbPrefix}
 
 # -----------------------------
 # VIS (Virtual Instance for SAP)
 # -----------------------------
  resource Microsoft.Workloads/sapVirtualInstances
   apiVersion: 2023-04-01
-  name: '${visName}'
-  location: '${location}'
+  name: ${visName}
+  location: ${location}
   properties:
     environment: NonProd
     sapProduct: S4HANA
@@ -47,11 +47,11 @@ param adminPassword secureString = "P@ssw0rd1234"
         networkConfiguration:
           isSecondaryIpEnabled: false
           virtualNetworkId: 'resourceId('Microsoft.Network/virtualNetworks', ${vnetName})'
-          appSubnetId: 'resourceId('Microsoft.Network/virtualNetworks/subnets', ${vnetName}, 'app-subnet}'
-          dbSubnetId: 'resourceId('Microsoft.Network/virtualNetworks/subnets', ${vnetName}, 'db-subnet}'
+          appSubnetId: 'resourceId('Microsoft.Network/virtualNetworks/subnets', ${vnetName}, 'app-subnet')'
+          dbSubnetId: 'resourceId('Microsoft.Network/virtualNetworks/subnets', ${vnetName}, 'db-subnet')'
       osConfiguration:
         osType: Linux
-        sshKeyPairName: ""
+        sshKeyPairName: ''
     deploymentType: SingleServer
 
 # -----------------------------
@@ -67,9 +67,9 @@ param adminPassword secureString = "P@ssw0rd1234"
     hardwareProfile:
       vmSize: '${hanaVmSize}'
     osProfile:
-      computerName: '${hanaVmName}'
-      adminUsername: '${adminUsername}'
-      adminPassword: '${adminPassword}'
+      computerName: ${hanaVmName}
+      adminUsername: ${adminUsername}
+      adminPassword: ${adminPassword}
       linuxConfiguration:
         disablePasswordAuthentication: false
     storageProfile:
@@ -87,8 +87,8 @@ param adminPassword secureString = "P@ssw0rd1234"
 # -----------------------------
  resource Microsoft.Network/networkInterfaces
   apiVersion: 2023-05-01
-  name: 'concat(${hanaVmName}, '-nic}'
-  location: '${location}'
+  name: 'concat(${hanaVmName}, '-nic)'
+  location: ${location}
   dependsOn:
     - 'resourceId('Microsoft.Network/virtualNetworks', ${vnetName})'
   properties:
@@ -97,5 +97,5 @@ param adminPassword secureString = "P@ssw0rd1234"
         properties:
           privateIPAllocationMethod: Dynamic
           subnet:
-            id: 'resourceId('Microsoft.Network/virtualNetworks/subnets', ${vnetName}, 'db-subnet}'
+            id: 'resourceId('Microsoft.Network/virtualNetworks/subnets', ${vnetName}, 'db-subnet')'
 
