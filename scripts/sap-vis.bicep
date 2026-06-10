@@ -13,16 +13,16 @@ param adminPassword string = 'P@ssw0rd1234'
 
 resource Microsoft.Network/virtualNetworks
   apiVersion: 2023-05-01
-  name: '${vnetName}'
-  location: '${location}'
+  name: vnetName
+  location: location
   properties:
     addressSpace:
       addressPrefixes:
-        - '${addressPrefix}'
+        [ addressPrefix ]
     subnets:
       - name: app-subnet
         properties:
-          addressPrefix: '${subnetAppPrefix}'
+          addressPrefix: subnetAppPrefix
       - name: db-subnet
         properties:
-          addressPrefix: '${subnetDbPrefix}'
+          addressPrefix: subnetDbPrefix
