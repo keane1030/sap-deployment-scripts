@@ -1,41 +1,20 @@
-parameters:
-  location:
-    type: string
-    defaultValue: switzerlandnorth
-  vnetName:
-    type: string
-    defaultValue: sap-vnet
-  addressPrefix:
-    type: string
-    defaultValue: 10.10.0.0/16
-  subnetAppPrefix:
-    type: string
-    defaultValue: 10.10.1.0/24
-  subnetDbPrefix:
-    type: string
-    defaultValue: 10.10.2.0/24
-  visName:
-    type: string
-    defaultValue: sap-vis
-  hanaVmName:
-    type: string
-    defaultValue: hana-vm
-  hanaVmSize:
-    type: string
-    defaultValue: Standard_E32ds_v5
-  adminUsername:
-    type: string
-    defaultValue: brian
-  adminPassword:
-    type: secureString
-    defaultValue: "P@ssw0rd1234"
+param location string = switzerlandnorth
+param vnetName string = sap-vnet
+param addressPrefix string = 10.10.0.0/16
+param subnetAppPrefix string = 10.10.1.0/24
+param subnetDbPrefix string = 10.10.2.0/24
+param visName string = sap-vis
+param hanaVmName string = hana-vm
+param hanaVmSize string = Standard_E32ds_v5
+param adminUsername string = brian
+param adminPassword secureString = "P@ssw0rd1234"
 
-resources:
+
 
 # -----------------------------
 # Virtual Network + Subnets
 # -----------------------------
-- type: Microsoft.Network/virtualNetworks
+ resource Microsoft.Network/virtualNetworks
   apiVersion: 2023-05-01
   name: "[parameters('vnetName')]"
   location: "[parameters('location')]"
@@ -54,7 +33,7 @@ resources:
 # -----------------------------
 # VIS (Virtual Instance for SAP)
 # -----------------------------
-- type: Microsoft.Workloads/sapVirtualInstances
+ resource Microsoft.Workloads/sapVirtualInstances
   apiVersion: 2023-04-01
   name: "[parameters('visName')]"
   location: "[parameters('location')]"
@@ -78,7 +57,7 @@ resources:
 # -----------------------------
 # HANA Database VM
 # -----------------------------
-- type: Microsoft.Compute/virtualMachines
+ resource Microsoft.Compute/virtualMachines
   apiVersion: 2023-03-01
   name: "[parameters('hanaVmName')]"
   location: "[parameters('location')]"
@@ -106,7 +85,7 @@ resources:
 # -----------------------------
 # NIC for HANA VM
 # -----------------------------
-- type: Microsoft.Network/networkInterfaces
+ resource Microsoft.Network/networkInterfaces
   apiVersion: 2023-05-01
   name: "[concat(parameters('hanaVmName'), '-nic')]"
   location: "[parameters('location')]"
