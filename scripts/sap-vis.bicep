@@ -7,14 +7,11 @@ param visName string = 'sap-vis'
 param hanaVmName string = 'hana-vm'
 param hanaVmSize string = 'Standard_E32ds_v5'
 param adminUsername string = 'brian'
-param adminPassword secureString = 'P@ssw0rd1234'
+param adminPassword string = 'P@ssw0rd1234'
 
 
 
-# -----------------------------
-# Virtual Network + Subnets
-# -----------------------------
- resource Microsoft.Network/virtualNetworks
+resource Microsoft.Network/virtualNetworks
   apiVersion: 2023-05-01
   name: '${vnetName}'
   location: '${location}'
