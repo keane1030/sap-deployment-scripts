@@ -20,5 +20,5 @@ jobs:
         inlineScript: |
           az deployment group create \
             --resource-group SAP_RG \
-            --template-file ./sap-vis.yaml \
+            --template-file $(Build.SourcesDirectory)/sap-vis.yaml \
             --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
