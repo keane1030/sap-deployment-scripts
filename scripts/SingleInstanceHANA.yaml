@@ -9,11 +9,11 @@ jobs:
   steps:
   - task: AzureCLI@2
     inputs:
-      azureSubscription: 'MyServiceConnection'
+      azureSubscription: 'AzureSAPConnection'
       scriptType: bash
       scriptLocation: inlineScript
       inlineScript: |
         az deployment group create \
-          --resource-group $(rgName) \
+          --resource-group SAP_RG \
           --template-file sap-vis.yaml \
           --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
