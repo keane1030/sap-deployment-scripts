@@ -108,6 +108,9 @@ resource hanaVm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 resource sapVirtualInstance 'Microsoft.Workloads/sapVirtualInstances@2023-04-01' = {
   name: 'mySapInstance'
   location: 'switzerlandnorth'
+  dependsOn: [
+    hanaVm
+  ]
   properties: {
     environment: 'NonProd'        // or 'Prod'
     sapProduct: 'S4HANA'          // or 'ECC', 'BW4HANA', etc.
