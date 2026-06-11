@@ -4,6 +4,9 @@ param addressSpace string = '10.0.0.0/16'
 param adminUsername string = 'azureuser'
 @secure()
 param adminPassword string = ''
+param nicName string = 'hana-vm-nic'
+param subnetId string = '/subscriptions/4a671263-c67b-4057-a573-3d2a1113b12e/resourceGroups/SAP_RG/providers/Microsoft.Network/virtualNetworks/my-vnet/subnets/default'
+param privateIp string = '10.0.1.4'
 
 param subnets array = [
   {
@@ -31,11 +34,43 @@ resource vnet 'Microsoft.Network/virtualNetworks@2023-05-01' = {
     ]
   }
 }
+
+resource nic 'Microsoft.Network/networkInterfaces@2025-05-01' = {
+  name: nicName
+  location: location
+  properties: {
+    ipConfigurations: [
+      {
+        name: 'Ipv4config'
+        properties: {
+          privateIPAddress: privateIp
+          privateIPAllocationMethod: 'Static'
+          privateIPAddressVersion: 'IPv4'
+          primary: true
+          subnet: {
+            id: subnetId
+          }
+        }
+      }
+    ]
+    dnsSettings: {
+      dnsServers: []
+    }
+    enableAcceleratedNetworking: false
+    enableIPForwarding: false
+    disableTcpStateTracking: false
+    nicType: 'Standard'
+    auxiliaryMode: 'None'
+    auxiliarySku: 'None'
+  }
+}
+
+
 resource hanaVm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
   name: 'hana-vm'
   location: location
   dependsOn: [
-    vnet
+    vnet, nic
   ]
   properties: {
     hardwareProfile: {
