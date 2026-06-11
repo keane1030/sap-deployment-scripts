@@ -104,3 +104,41 @@ resource hanaVm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
     }
   }
 }
+
+resource sapVirtualInstance 'Microsoft.Workloads/sapVirtualInstances@2023-04-01' = {
+  name: 'mySapInstance'
+  location: 'switzerlandnorth'
+  properties: {
+    environment: 'NonProd'        // or 'Prod'
+    sapProduct: 'S4HANA'          // or 'ECC', 'BW4HANA', etc.
+    configuration: {
+      configurationType: 'Deployment'
+      appLocation: 'switzerlandnorth'
+      infrastructureConfiguration: {
+        appResourceGroup: 'SAP_RG'
+        deploymentType: 'SingleServer'
+        subnetId: subnetId
+        networkConfiguration: {
+          isSecondaryIpEnabled: false
+          networkInterfaceConfigurations: [
+            {
+              name: 'hana-vm-nic'
+              properties: {
+                ipConfigurations: [
+                  {
+                    name: 'Ipv4config'
+                    properties: {
+                      privateIPAddress: privateIp
+                      privateIPAllocationMethod: 'Static'
+                      privateIPAddressVersion: 'IPv4'
+                      primary: true
+                    }
+                  }
+                ]
+              }
+            }
+          ] 
+      }
+    }
+  }
+}
