@@ -43,7 +43,7 @@ resource hanaVm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
     }
     storageProfile: {
       imageReference: {
-        publisher: 'SUSE'
+        publisher: 'suse-sap'
         offer: 'sles-sap-15-sp7-gen2'
         sku: 'gen2'
         version: 'latest'
