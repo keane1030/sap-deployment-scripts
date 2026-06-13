@@ -369,9 +369,9 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        customScriptFileUri
+        installfile
       ]
-      commandToExecute: 'bash ${installfile} ${hanaStorageAccountName}'
+      commandToExecute: 'bash install-hana-sles.sh ${hanaStorageAccountName}'
     }
   }
 }
