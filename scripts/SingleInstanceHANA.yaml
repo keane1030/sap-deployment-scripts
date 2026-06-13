@@ -1,5 +1,5 @@
 trigger:
-- main
+- create-storage
 
 variables:
   adminUser: 'azureuser'
