@@ -4,11 +4,23 @@ trigger:
 variables:
   adminUser: 'azureuser'
   adminPass: 'Appr0ved!!!!'
+  resourceGroup: 'SAP_RG'
 
 pool:
   vmImage: ubuntu-latest
   
 jobs:
+  - job: create_sap_rg
+    displayName: 'Create Resource Group'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureSAPConnection'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          az group create -n $(resourceGroup) -l switzerlandnorth
+
   - job: deploy_hana
     displayName: 'Deploy Single Instance HANA'
     steps:
@@ -19,6 +31,6 @@ jobs:
         scriptLocation: inlineScript
         inlineScript: |
           az deployment group create \
-            --resource-group SAP_RG \
+            --resource-group $(resourceGroup) \
             --template-file $(Build.SourcesDirectory)/scripts/sip-hana.bicep \
             --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
