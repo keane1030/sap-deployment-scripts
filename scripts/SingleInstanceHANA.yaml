@@ -20,5 +20,5 @@ jobs:
         inlineScript: |
           az deployment group create \
             --resource-group SAP_RG \
-            --template-file $(Build.SourcesDirectory)/scripts/sap-vis.bicep \
+            --template-file $(Build.SourcesDirectory)/scripts/sip-hana2.bicep \
             --parameters adminUsername=$(adminUser) adminPassword=$(adminPass)
