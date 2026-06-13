@@ -118,7 +118,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
   name: vnetName
-  location: location  
+  location: location
   tags: tags
   properties: {
     addressSpace: {
@@ -339,15 +339,8 @@ resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
 
 // Define the blob service
 resource blobForHanaService 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01' = {
-name: 'default'
-parent: hanaStorage
-properties: {
-  adminUserEnabled: true
-  publicAccess: 'Blob'
-  deleteRetentionPolicy: {
-    enabled: true
-    days: 7
-  }
+  name: 'default'
+  parent: hanaStorage
 }
 
 // Create blob containers
@@ -355,7 +348,6 @@ resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containe
   name: 'hana'
   parent: blobForHanaService
   properties: {
-    adminUserEnabled: true
     publicAccess:'Container'
   }
 }
