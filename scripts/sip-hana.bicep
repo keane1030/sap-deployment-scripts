@@ -118,7 +118,7 @@ resource nsg 'Microsoft.Network/networkSecurityGroups@2023-04-01' = {
 
 resource vnet 'Microsoft.Network/virtualNetworks@2023-04-01' = {
   name: vnetName
-  location: location
+  location: location  
   tags: tags
   properties: {
     addressSpace: {
@@ -162,7 +162,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-04-01' = {
       {
         name: nicIpConfigName
         properties: {
-          privateIPAllocationMethod: 'Dynamic'
+          privateIPAllocationMethod: 'Static'
           subnet: {
             id: vnet.properties.subnets[0].id
           }
@@ -329,6 +329,7 @@ resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
   properties: {
     supportsHttpsTrafficOnly: true
     accessTier: 'Hot'
+    allowBlobPublicAccess: true
   }
   sku: {
     name: 'Standard_LRS'
@@ -340,6 +341,13 @@ resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
 resource blobForHanaService 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01' = {
 name: 'default'
 parent: hanaStorage
+properties: {
+  adminUserEnabled: true
+  publicAccess: 'Blob'
+  deleteRetentionPolicy: {
+    enabled: true
+    days: 7
+  }
 }
 
 // Create blob containers
@@ -347,6 +355,7 @@ resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containe
   name: 'hana'
   parent: blobForHanaService
   properties: {
+    adminUserEnabled: true
     publicAccess:'Container'
   }
 }
