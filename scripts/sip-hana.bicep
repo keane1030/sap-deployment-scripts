@@ -162,7 +162,7 @@ resource nic 'Microsoft.Network/networkInterfaces@2023-04-01' = {
       {
         name: nicIpConfigName
         properties: {
-          privateIPAllocationMethod: 'Static'
+          privateIPAllocationMethod: 'Dynamic'
           subnet: {
             id: vnet.properties.subnets[0].id
           }
