@@ -326,13 +326,14 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
   name: hanaStorageAccountName
   location: location
+  properties: {
+    supportsHttpsTrafficOnly: true
+    accessTier: 'Hot'
+  }
   sku: {
     name: 'Standard_LRS'
   }
   kind: 'StorageV2'
-  properties: {
-    accessTier: 'Hot'
-  }
 }
 
 // Define the blob service
@@ -346,7 +347,7 @@ resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containe
   name: 'hana'
   parent: blobForHanaService
   properties: {
-    publicAccess: 'None'
+    publicAccess:'Container'
   }
 }
 
