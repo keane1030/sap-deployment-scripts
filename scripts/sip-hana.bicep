@@ -323,6 +323,34 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
   }
 }
 
+// create a storage account for HANA installation files and backups
+resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
+  name: 'hanastorage${uniqueString(resourceGroup().id)}'
+  location: location
+  sku: {
+    name: 'Standard_LRS'
+  }
+  kind: 'StorageV2'
+  properties: {
+    accessTier: 'Hot'
+  }
+}
+
+// Define the blob service
+resource blobForHanaService 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01' = {
+name: 'default'
+parent: hanaStorage
+}
+
+// Create blob containers
+resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
+  name: 'hana'
+  parent: blobForHanaService
+  properties: {
+    publicAccess: 'None'
+  }
+}
+
 //
 // Custom Script Extension for SLES OS prep + HANA install
 //
