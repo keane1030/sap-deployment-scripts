@@ -1,5 +1,5 @@
 trigger:
-- main
+- new-bicep-file
 
 variables:
   adminUser: 'azureuser'
