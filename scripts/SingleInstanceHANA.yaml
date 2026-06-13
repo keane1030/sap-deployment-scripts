@@ -2,8 +2,8 @@ trigger:
 - main
 
 variables:
-  adminUser: 'sapadmin'
-  adminPass: 'P@ssw0rd1234'
+  adminUser: 'azureuser'
+  adminPass: 'Appr0ved!!!!'
 
 pool:
   vmImage: ubuntu-latest

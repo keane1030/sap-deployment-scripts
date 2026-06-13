@@ -9,7 +9,7 @@ param adminUsername string = 'azureuser'
 
 @secure()
 @description('Admin password for the VM')
-param adminPassword string = 'Appr0ved!!!!'
+param adminPassword string = ''
 
 @description('Virtual network name')
 param vnetName string = 'sap-hana-vnet'
