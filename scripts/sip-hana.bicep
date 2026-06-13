@@ -11,6 +11,7 @@ param adminUsername string = 'azureuser'
 @description('Admin password for the VM')
 param adminPassword string = ''
 
+param installfile string = 'https://raw.githubusercontent.com/azure/sap-deployment-scripts/main/scripts/install-hana-sles.sh'
 @description('Virtual network name')
 param vnetName string = 'sap-hana-vnet'
 
@@ -370,7 +371,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
       fileUris: [
         customScriptFileUri
       ]
-      commandToExecute: 'bash install-hana-sles.sh ${hanaStorageAccountName}'
+      commandToExecute: 'bash ${installfile} ${hanaStorageAccountName}'
     }
   }
 }
