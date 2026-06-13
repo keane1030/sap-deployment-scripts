@@ -10,17 +10,6 @@ pool:
   vmImage: ubuntu-latest
   
 jobs:
-  - job: create_sap_rg
-    displayName: 'Create Resource Group'
-    steps:
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'AzureSAPConnection'
-        scriptType: bash
-        scriptLocation: inlineScript
-        inlineScript: |
-          az group create -n $(resourceGroup) -l switzerlandnorth
-
   - job: deploy_hana
     displayName: 'Deploy Single Instance HANA'
     steps:

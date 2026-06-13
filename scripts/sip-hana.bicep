@@ -68,11 +68,10 @@ param hanaSharedDiskSizeGB int = 256
 @description('Size in GB for /usr/sap disk')
 param usrSapDiskSizeGB int = 128
 
-@description('URI of the custom script for OS prep + HANA install')
-param customScriptFileUri string = 'https://<yourstorage>.blob.core.windows.net/scripts/install-hana-sles.sh'
+var hanaStorageAccountName = 'hanastorage${uniqueString(resourceGroup().id)}'
 
-@description('Command to execute in the custom script extension')
-param customScriptCommandToExecute string = 'bash install-hana-sles.sh'
+@description('URI of the custom script for OS prep + HANA install')
+var customScriptFileUri = 'https://${hanaStorageAccountName}.blob.core.windows.net/scripts/install-hana-sles.sh'
 
 @description('Tags to apply to all resources')
 param tags object = {
@@ -325,7 +324,7 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 
 // create a storage account for HANA installation files and backups
 resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
-  name: 'hanastorage${uniqueString(resourceGroup().id)}'
+  name: hanaStorageAccountName
   location: location
   sku: {
     name: 'Standard_LRS'
@@ -355,7 +354,7 @@ resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containe
 // Custom Script Extension for SLES OS prep + HANA install
 //
 
-/* resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01' = {
+resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01' = {
   parent: vm
   name: 'customScriptForLinux'
   location: location
@@ -369,11 +368,11 @@ resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containe
       fileUris: [
         customScriptFileUri
       ]
-      commandToExecute: customScriptCommandToExecute
+      commandToExecute: 'bash install-hana-sles.sh ${hanaStorageAccountName}'
     }
   }
 }
- */
+
 //
 // Outputs
 //
