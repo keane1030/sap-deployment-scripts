@@ -13,7 +13,6 @@ pool:
   
 jobs:
   - job: deploy_hana
-    dependsOn: upload_hana_installer_script
     displayName: 'Deploy Single Instance HANA'
     steps:
     - task: AzureCLI@2
