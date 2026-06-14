@@ -5,7 +5,7 @@ variables:
   adminUser: 'azureuser'
   adminPass: 'Appr0ved!!!!'
   resourceGroup: 'SAP_RG'
-  hanaStorageAccountName: 'hanastorageaccount-$(Build.BuildId)'
+  hanaStorageAccountName: 'hanastorageaccountbmkjr$(Build.BuildId)'
   containerName: 'hana'
 
 pool:
