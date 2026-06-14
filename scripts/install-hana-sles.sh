@@ -24,7 +24,7 @@ STORAGE_ACCOUNT_NAME="$1"  # Pass the storage account name as the first argument
 STORAGE_CONTAINER_NAME="hana"
 MEDIA_ARCHIVE_NAME="SAP_HANA_INSTALLER.tgz"
 echo "adding storage extension"
-az extension add --name azure-storage-azcopy
+az extension add --name storage-preview
 echo "creating SAS"
 # Optional SAS token (without leading '?'), or leave empty if public
 STORAGE_SAS_TOKEN=az storage container generate-sas --account-name ${STORAGE_ACCOUNT_NAME} --name hana   --permissions rwdl \
