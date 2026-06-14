@@ -11,7 +11,6 @@ param adminUsername string = 'azureuser'
 @description('Admin password for the VM')
 param adminPassword string = ''
 
-param installfile string = 'https://raw.githubusercontent.com/azure/sap-deployment-scripts/main/scripts/install-hana-sles.sh'
 @description('Virtual network name')
 param vnetName string = 'sap-hana-vnet'
 
@@ -69,10 +68,11 @@ param hanaSharedDiskSizeGB int = 256
 @description('Size in GB for /usr/sap disk')
 param usrSapDiskSizeGB int = 128
 
-var hanaStorageAccountName = 'hanastorage${uniqueString(resourceGroup().id)}'
+var hanaStorageAccountName = ''
+var containerName = ''
 
 @description('URI of the custom script for OS prep + HANA install')
-var customScriptFileUri = 'https://${hanaStorageAccountName}.blob.core.windows.net/scripts/install-hana-sles.sh'
+var customScriptFileUri = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
 
 @description('Tags to apply to all resources')
 param tags object = {
@@ -323,36 +323,6 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
   }
 }
 
-// create a storage account for HANA installation files and backups
-resource hanaStorage 'Microsoft.Storage/storageAccounts@2026-04-01' = {
-  name: hanaStorageAccountName
-  location: location
-  properties: {
-    supportsHttpsTrafficOnly: true
-    accessTier: 'Hot'
-    allowBlobPublicAccess: true
-  }
-  sku: {
-    name: 'Standard_LRS'
-  }
-  kind: 'StorageV2'
-}
-
-// Define the blob service
-resource blobForHanaService 'Microsoft.Storage/storageAccounts/blobServices@2022-09-01' = {
-  name: 'default'
-  parent: hanaStorage
-}
-
-// Create blob containers
-resource blobContainers 'Microsoft.Storage/storageAccounts/blobServices/containers@2022-09-01' = {
-  name: 'hana'
-  parent: blobForHanaService
-  properties: {
-    publicAccess:'Container'
-  }
-}
-
 //
 // Custom Script Extension for SLES OS prep + HANA install
 //
@@ -369,7 +339,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
     autoUpgradeMinorVersion: true
     settings: {
       fileUris: [
-        installfile
+        customScriptFileUri
       ]
       commandToExecute: 'bash install-hana-sles.sh ${hanaStorageAccountName}'
     }

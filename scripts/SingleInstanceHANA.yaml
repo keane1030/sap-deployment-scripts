@@ -5,11 +5,41 @@ variables:
   adminUser: 'azureuser'
   adminPass: 'Appr0ved!!!!'
   resourceGroup: 'SAP_RG'
+  hanaStorageAccountName: 'hanastorageaccount+RANDOM'
+  containerName: 'hana'
 
 pool:
   vmImage: ubuntu-latest
   
 jobs:
+  - job: create_storage_account
+    displayName: 'Create Storage Account and container for HANA Installer'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureSAPConnection'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          echo "Creating storage account..."
+          az storage account create --resource-group $(resourceGroup) --name $(hanaStorageAccountName) \
+            --sku Standard_LRS --kind StorageV2 --allow-blob-public-access true
+          echo "Creating storage container..."
+          az storage container create --account-name $(hanaStorageAccountName) --name $(containerName) --public-access blob
+
+  - job: upload_hana_installer_script
+    displayName: 'Upload HANA Installer Script to Azure Storage'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureSAPConnection'
+        scriptType: bash
+        scriptLocation: inlineScript
+        inlineScript: |
+          echo "Uploading install-hana-sles.sh..."
+          az storage blob upload --account-name $(hanaStorageAccountName) --container-name $(containerName) \
+          --name install-hana-sles.sh --file $(Build.SourcesDirectory)/scripts/install-hana-sles.sh --overwrite true --auth-mode key
+
   - job: deploy_hana
     displayName: 'Deploy Single Instance HANA'
     steps:
@@ -19,7 +49,11 @@ jobs:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
+          echo "Calling install-hana-sles.sh to install HANA..."
           az deployment group create \
             --resource-group $(resourceGroup) \
             --template-file $(Build.SourcesDirectory)/scripts/sip-hana.bicep \
-            --parameters adminUsername=$(adminUser) adminPassword=$(adminPass) installfile=$(Build.SourcesDirectory)/scripts/install-hana-sles.sh
+            --parameters adminUsername=$(adminUser) adminPassword=$(adminPass) \
+            installfile=$(Build.SourcesDirectory)/scripts/install-hana-sles.sh \
+            hanaStorageAccountName=$(hanaStorageAccountName) \
+            containerName=$(containerName)
