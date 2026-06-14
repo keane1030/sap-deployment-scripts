@@ -23,9 +23,11 @@ MASTER_PASSWORD="Appr0ved!!!!"
 STORAGE_ACCOUNT_NAME="$1"  # Pass the storage account name as the first argument to the script
 STORAGE_CONTAINER_NAME="hana"
 MEDIA_ARCHIVE_NAME="SAP_HANA_INSTALLER.tgz"
+echo "adding storage extension"
+az extension add --name azure-storage-azcopy
 echo "creating SAS"
 # Optional SAS token (without leading '?'), or leave empty if public
-STORAGE_SAS_TOKEN=az storage container generate-sas --account-name hanastorageaccount171 --name hana   --permissions rwdl \
+STORAGE_SAS_TOKEN=az storage container generate-sas --account-name ${STORAGE_ACCOUNT_NAME} --name hana   --permissions rwdl \
   --expiry 2026-06-20T00:00Z --https-only --as-user 
 echo "SAS token created"
 MEDIA_DOWNLOAD_DIR="/sapmedia"
