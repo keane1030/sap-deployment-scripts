@@ -73,7 +73,7 @@ param containerName string = ''
 param storageSasToken string = ''
 
 @description('URI of the custom script for OS prep + HANA install')
-var customScriptFileUri = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
+param customScriptFileUri string = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
 
 @description('Tags to apply to all resources')
 param tags object = {
