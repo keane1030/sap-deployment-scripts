@@ -27,8 +27,8 @@ jobs:
           echo "Creating storage container..."
           az storage container create --account-name $(hanaStorageAccountName) --name $(containerName) --public-access blob
           echo "Creating SAS token..."
-          $(storageSasToken)=az storage container generate-sas --account-name $(hanaStorageAccountName) --name $(containerName) --permissions rwdl \
-          --expiry 2026-06-19T00:00Z --https-only --as-user
+          storageSasToken=$(az storage container generate-sas --account-name $(hanaStorageAccountName) --name $(containerName) --permissions rwdl \
+          --expiry 2026-06-19T00:00Z --https-only --as-user)
           echo "Storage SAS token: $(storageSasToken)"
           echo "##vso[task.setvariable variable=storageSasToken]$storageSasToken"
 
