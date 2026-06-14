@@ -70,7 +70,7 @@ param usrSapDiskSizeGB int = 128
 
 param hanaStorageAccountName string = ''
 param containerName string = ''
-param installfile string = ''
+param storageSasToken string = ''
 
 @description('URI of the custom script for OS prep + HANA install')
 var customScriptFileUri = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
@@ -342,7 +342,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
       fileUris: [
         customScriptFileUri
       ]
-      commandToExecute: 'bash $(customScriptFileUri) ${hanaStorageAccountName}'
+      commandToExecute: 'bash install-hana-sles.sh ${hanaStorageAccountName} ${storageSasToken}'
     }
   }
 }

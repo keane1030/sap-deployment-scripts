@@ -7,7 +7,7 @@ variables:
   resourceGroup: 'SAP_RG'
   hanaStorageAccountName: 'hanastorageaccount$(Build.BuildId)'
   containerName: 'hana'
-
+  storageSasToken: ''
 pool:
   vmImage: ubuntu-latest
   
@@ -26,6 +26,11 @@ jobs:
             --sku Standard_LRS --kind StorageV2 --allow-blob-public-access true
           echo "Creating storage container..."
           az storage container create --account-name $(hanaStorageAccountName) --name $(containerName) --public-access blob
+          echo "Creating SAS token..."
+          $(storageSasToken)=az storage container generate-sas --account-name $(hanaStorageAccountName) --name $(containerName) --permissions rwdl \
+          --expiry 2026-06-19T00:00Z --https-only --as-user
+          echo "Storage SAS token: $(storageSasToken)"
+          echo "##vso[task.setvariable variable=storageSasToken]$storageSasToken"
 
   - job: upload_hana_installer_script
     dependsOn: create_storage_account
@@ -58,4 +63,5 @@ jobs:
             --parameters adminUsername=$(adminUser) adminPassword=$(adminPass) \
             installfile=$(Build.SourcesDirectory)/scripts/install-hana-sles.sh \
             hanaStorageAccountName=$(hanaStorageAccountName) \
-            containerName=$(containerName)
+            containerName=$(containerName) \
+            storageSasToken=$(storageSasToken)
