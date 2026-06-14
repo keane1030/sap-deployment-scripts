@@ -23,16 +23,11 @@ MASTER_PASSWORD="Appr0ved!!!!"
 STORAGE_ACCOUNT_NAME="$1"  # Pass the storage account name as the first argument to the script
 STORAGE_CONTAINER_NAME="hana"
 MEDIA_ARCHIVE_NAME="SAP_HANA_INSTALLER.tgz"
-
+echo "creating SAS"
 # Optional SAS token (without leading '?'), or leave empty if public
-STORAGE_SAS_TOKEN=az storage container generate-sas \
-  --account-name STORAGE_ACCOUNT_NAME \
-  --name hana \
-  --permissions rwdl \
-  --expiry 2030-01-01T00:00Z \
-  --https-only \
-  --as-user false
-
+STORAGE_SAS_TOKEN=az storage container generate-sas --account-name ${STORAGE_ACCOUNT_NAME} --name hana   --permissions rwdl \
+  --expiry 2030-01-01T00:00Z --https-only --as-user false
+echo "SAS token created"
 MEDIA_DOWNLOAD_DIR="/sapmedia"
 MEDIA_URL_BASE="https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${STORAGE_CONTAINER_NAME}"
 if [[ -n "${STORAGE_SAS_TOKEN}" ]]; then
@@ -40,7 +35,7 @@ if [[ -n "${STORAGE_SAS_TOKEN}" ]]; then
 else
   MEDIA_URL="${MEDIA_URL_BASE}/${MEDIA_ARCHIVE_NAME}"
 fi
-
+echo "Media URL: ${MEDIA_URL}"
 # Expected HANA DB directory after extraction
 HANA_DB_DIR="${MEDIA_DOWNLOAD_DIR}/SAP_HANA_DATABASE"
 
@@ -54,7 +49,7 @@ MNT_DATA="/hana/data"
 MNT_LOG="/hana/log"
 MNT_SHARED="/hana/shared"
 MNT_USR_SAP="/usr/sap"
-
+echo "before helpers"
 ###############################################################################
 # HELPER FUNCTIONS
 ###############################################################################
@@ -98,7 +93,7 @@ add_fstab_entry() {
     echo "${dev} ${mnt} ${fs} ${opts} 0 0" >> /etc/fstab
   fi
 }
-
+e
 ###############################################################################
 # 1. Pre-checks
 ###############################################################################
