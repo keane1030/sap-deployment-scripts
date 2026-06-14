@@ -18,12 +18,13 @@ echo "=== $(date) | SAP HANA SLES Prep Script Starting ==="
 SID="BMK"
 INSTANCE_NUMBER="01"
 MASTER_PASSWORD="Appr0ved!!!!"
+echo "=== $(date) | KEANE ==="
 
 # Azure Storage account details for HANA media
 STORAGE_ACCOUNT_NAME="$1"  # Pass the storage account name as the first argument to the script
 STORAGE_CONTAINER_NAME="hana"
 MEDIA_ARCHIVE_NAME="SAP_HANA_INSTALLER.tgz"
-echo "adding storage extension"
+echo "=== $(date) | BRIAN ==="
 az extension add --name storage-preview
 echo "creating SAS"
 # Optional SAS token (without leading '?'), or leave empty if public
