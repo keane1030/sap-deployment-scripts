@@ -28,6 +28,7 @@ jobs:
           az storage container create --account-name $(hanaStorageAccountName) --name $(containerName) --public-access blob
 
   - job: upload_hana_installer_script
+    dependsOn: create_storage_account
     displayName: 'Upload HANA Installer Script to Azure Storage'
     steps:
     - task: AzureCLI@2
@@ -41,6 +42,7 @@ jobs:
           --name install-hana-sles.sh --file $(Build.SourcesDirectory)/scripts/install-hana-sles.sh --overwrite true --auth-mode key
 
   - job: deploy_hana
+    dependsOn: upload_hana_installer_script
     displayName: 'Deploy Single Instance HANA'
     steps:
     - task: AzureCLI@2

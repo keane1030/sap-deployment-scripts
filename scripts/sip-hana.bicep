@@ -68,8 +68,9 @@ param hanaSharedDiskSizeGB int = 256
 @description('Size in GB for /usr/sap disk')
 param usrSapDiskSizeGB int = 128
 
-var hanaStorageAccountName = ''
-var containerName = ''
+param hanaStorageAccountName string = ''
+param containerName string = ''
+param installfile string = ''
 
 @description('URI of the custom script for OS prep + HANA install')
 var customScriptFileUri = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
@@ -341,7 +342,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
       fileUris: [
         customScriptFileUri
       ]
-      commandToExecute: 'bash install-hana-sles.sh ${hanaStorageAccountName}'
+      commandToExecute: 'bash ${installfile} ${hanaStorageAccountName}'
     }
   }
 }
