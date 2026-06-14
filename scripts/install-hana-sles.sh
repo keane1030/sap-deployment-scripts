@@ -25,8 +25,8 @@ STORAGE_CONTAINER_NAME="hana"
 MEDIA_ARCHIVE_NAME="SAP_HANA_INSTALLER.tgz"
 echo "creating SAS"
 # Optional SAS token (without leading '?'), or leave empty if public
-STORAGE_SAS_TOKEN=az storage container generate-sas --account-name ${STORAGE_ACCOUNT_NAME} --name hana   --permissions rwdl \
-  --expiry 2030-01-01T00:00Z --https-only --as-user false
+STORAGE_SAS_TOKEN=az storage container generate-sas --account-name hanastorageaccount171 --name hana   --permissions rwdl \
+  --expiry 2026-06-20T00:00Z --https-only --as-user 
 echo "SAS token created"
 MEDIA_DOWNLOAD_DIR="/sapmedia"
 MEDIA_URL_BASE="https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${STORAGE_CONTAINER_NAME}"
