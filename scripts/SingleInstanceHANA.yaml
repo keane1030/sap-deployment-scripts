@@ -56,6 +56,6 @@ jobs:
             --resource-group $(resourceGroup) \
             --template-file $(Build.SourcesDirectory)/scripts/sip-hana.bicep \
             --parameters adminUsername=$(adminUser) adminPassword=$(adminPass) \
-            installfile=$(Build.SourcesDirectory)/scripts/install-hana-sles.sh \
+            customScriptFileUri=https://$(hanaStorageAccountName).blob.core.windows.net/$(containerName)/install-hana-sles.sh \
             hanaStorageAccountName=$(hanaStorageAccountName) \
             containerName=$(containerName)
