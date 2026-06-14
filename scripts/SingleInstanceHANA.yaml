@@ -5,7 +5,7 @@ variables:
   adminUser: 'azureuser'
   adminPass: 'Appr0ved!!!!'
   resourceGroup: 'SAP_RG'
-  hanaStorageAccountName: 'hanastorageaccountbriankeanejr'
+  hanaStorageAccountName: 'hanastorageaccount'$[format('hana-{0}', rand(10000, 99999))]
   containerName: 'hana'
 
 pool:
