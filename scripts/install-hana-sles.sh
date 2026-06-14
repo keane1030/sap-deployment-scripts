@@ -25,7 +25,7 @@ STORAGE_CONTAINER_NAME="hana"
 MEDIA_ARCHIVE_NAME="SAP_HANA_INSTALLER.tgz"
 # az extension add --name storage-preview
 # Optional SAS token (without leading '?'), or leave empty if public
-STORAGE_SAS_TOKEN='sp=rwl&st=2026-06-14T16:56:07Z&se=2026-06-21T01:11:07Z&skoid=9a5b521c-e063-4cfb-9d41-d2c3f24a7eda&sktid=f07a3584-a083-4a3f-8163-9f64905a27ac&skt=2026-06-14T16:56:07Z&ske=2026-06-21T01:11:07Z&sks=b&skv=2026-02-06&spr=https&sv=2026-02-06&sr=c&sig=P7YxGxXqymCqcbIZ7n3oMON2CoU%2F6jh58A6qU849RsA%3D'
+STORAGE_SAS_TOKEN="sp=rwl&st=2026-06-14T16:56:07Z&se=2026-06-21T01:11:07Z&skoid=9a5b521c-e063-4cfb-9d41-d2c3f24a7eda&sktid=f07a3584-a083-4a3f-8163-9f64905a27ac&skt=2026-06-14T16:56:07Z&ske=2026-06-21T01:11:07Z&sks=b&skv=2026-02-06&spr=https&sv=2026-02-06&sr=c&sig=P7YxGxXqymCqcbIZ7n3oMON2CoU%2F6jh58A6qU849RsA%3D"
 MEDIA_DOWNLOAD_DIR="/sapmedia"
 MEDIA_URL_BASE="https://${STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${STORAGE_CONTAINER_NAME}"
 if [[ -n "${STORAGE_SAS_TOKEN}" ]]; then
