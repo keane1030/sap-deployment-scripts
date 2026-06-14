@@ -33,7 +33,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
       fileUris: [
         customScriptFileUri
       ]
-      commandToExecute: 'bash https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
+      commandToExecute: 'bash install-hana-sles.sh'
     }
   }
 }
