@@ -14,7 +14,7 @@ param hanaStorageAccountName string = 'hanamedia${uniqueString(resourceGroup().i
 param containerName string = 'hana'
 param imagePublisher string = 'SUSE'
 @description('URI of the custom script for OS prep + HANA install')
-param customScriptFileUri string = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles3.sh'
+param customScriptFileUri string = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles4.sh'
 
 
 //
@@ -33,7 +33,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
       fileUris: [
         customScriptFileUri
       ]
-      commandToExecute: 'bash install-hana-sles3.sh ${hanaStorageAccountName}'
+      commandToExecute: 'bash install-hana-sles4.sh ${hanaStorageAccountName}'
     }
   }
 }

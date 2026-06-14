@@ -7,7 +7,7 @@ variables:
   resourceGroup: 'SAP_RG'
   hanaStorageAccountName: 'hanastorageaccount171'
   containerName: 'hana'
-  customScriptFileUri: 'https://$(hanaStorageAccountName).blob.core.windows.net/$(containerName)/install-hana-sles3.sh'
+  customScriptFileUri: 'https://$(hanaStorageAccountName).blob.core.windows.net/$(containerName)/install-hana-sles4.sh'
 
 pool:
   vmImage: ubuntu-latest
@@ -22,7 +22,7 @@ jobs:
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
-          echo "Calling install-hana-sles3.sh to install HANA..."
+          echo "Calling install-hana-sles4.sh to install HANA..."
           echo "Using custom script URI: $(customScriptFileUri)"
           az deployment group create \
             --resource-group $(resourceGroup) \

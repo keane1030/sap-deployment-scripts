@@ -104,16 +104,17 @@ echo "Using SID=${SID}, INSTANCE_NUMBER=${INSTANCE_NUMBER}"
 # 2. Install required OS packages
 ###############################################################################
 echo "Installing SLES for SAP required packages..."
-
+# saptune-patterns replaced below by sapconf
 zypper refresh
 zypper install -y \
   saptune \
-  saptune-patterns \
+  sapconf \
   uuidd \
   net-tools \
   glibc-locale \
   unrar \
   tcsh \
+  unrar \
   libaio1 \
   numactl \
   libicu \
