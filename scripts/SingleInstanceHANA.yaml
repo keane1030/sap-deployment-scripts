@@ -49,12 +49,12 @@ jobs:
           --name install-hana-sles.sh --file $(Build.SourcesDirectory)/scripts/install-hana-sles.sh --overwrite true --auth-mode key
 
   - job: deploy_hana
-   dependsOn: upload_hana_installer_script
-   displayName: 'Deploy Single Instance HANA'
-   steps:
-   - task: AzureCLI@2
-     inputs:
-       azureSubscription: 'AzureSAPConnection'
+    dependsOn: upload_hana_installer_script
+    displayName: 'Deploy Single Instance HANA'
+    steps:
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'AzureSAPConnection'
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
