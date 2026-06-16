@@ -327,8 +327,9 @@ resource vm 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 //
 // Custom Script Extension for SLES OS prep + HANA install
 //
+/*****************NEED LICENSE TO INSTALL HANA, SO COMMENTED OUT*************************/
 
-resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01' = {
+/* resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01' = {
   parent: vm
   name: 'customScriptForLinux'
   location: location
@@ -346,7 +347,7 @@ resource vmCustomScript 'Microsoft.Compute/virtualMachines/extensions@2023-03-01
     }
   }
 }
-
+ */
 //
 // Outputs
 //
