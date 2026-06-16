@@ -7,7 +7,7 @@ variables:
   resourceGroup: 'SAP_RG'
   hanaStorageAccountName: 'hanastorageaccount$(Build.BuildId)'
   containerName: 'hana'
-  # storageSasToken: ''
+  # storageSasToken: 'junk'
 pool:
   vmImage: ubuntu-latest
   
@@ -65,5 +65,5 @@ jobs:
             --parameters adminUsername=$(adminUser) adminPassword=$(adminPass) \
             customScriptFileUri=$(Build.SourcesDirectory)/scripts/install-hana-sles.sh \
             hanaStorageAccountName=$(hanaStorageAccountName) \
-            containerName=$(containerName) \
-            storageSasToken=$(storageSasToken)
+            containerName=$(containerName) 
+            # storageSasToken=$(storageSasToken) add later when we decide how to handle the SAS token securely
