@@ -70,7 +70,7 @@ param usrSapDiskSizeGB int = 128
 
 param hanaStorageAccountName string = ''
 param containerName string = ''
-param storageSasToken string = ''
+// param storageSasToken string = ''
 
 @description('URI of the custom script for OS prep + HANA install')
 param customScriptFileUri string = 'https://${hanaStorageAccountName}.blob.core.windows.net/${containerName}/install-hana-sles.sh'
